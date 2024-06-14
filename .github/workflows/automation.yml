@@ -1,0 +1,27 @@
+name: Automation Checks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  agencia-clickone:
+    name: Automation for agencia-clickone
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Setup environment
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          environment-file: environment.yml
+      - name: Checkout branch
+        uses: actions/checkout@v2
+        with:
+          path: automation
+      - name: Run Validations
+        run: |
+          robot -d results automation/Tests
