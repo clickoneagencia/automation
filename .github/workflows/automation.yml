@@ -29,6 +29,7 @@ jobs:
       - uses: browser-actions/setup-chrome@v1
         with:
           chrome-version: 125
+          install-dependencies: true
           install-chromedriver: true
       - uses: browser-actions/setup-firefox@v1
       - run: firefox --version
