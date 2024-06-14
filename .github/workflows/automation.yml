@@ -32,10 +32,9 @@ jobs:
           chrome-version: 125
           install-dependencies: true
           install-chromedriver: true
-      - name: Print Chrome version
+      - name: Set Chrome path
         run: |
-          echo ${{ steps.setup-chrome.outputs.chrome-path }}
-          ${{ steps.setup-chrome.outputs.chrome-path }} --version
+          echo ${{ steps.setup-chrome.outputs.chrome-path }} >> $GITHUB_PATH
       - uses: browser-actions/setup-firefox@v1
       - run: firefox --version
       - name: Setup environment
