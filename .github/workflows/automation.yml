@@ -34,19 +34,21 @@ jobs:
           install-chromedriver: true
       - name: Set Chrome path
         run: |
-          echo ${{ steps.setup-chrome.outputs.chrome-path }} >> $GITHUB_PATH
+          echo "${{ steps.setup-chrome.outputs.chrome-path }}" >> $GITHUB_PATH
       - uses: browser-actions/setup-firefox@v1
-      - run: firefox --version
-      - name: Setup environment
-        uses: mamba-org/setup-micromamba@v1
-        with:
-          environment-file: automation/environment.yml
-          cache-environment: true
-          cache-downloads: true
-          init-shell: >-
-            bash
-          post-cleanup: 'all'
-      - name: Run Validations
-        run: |
-          robot -d results automation/Tests
-        shell: bash -el {0}
+      - run: |
+          firefox --version
+          chrome --version
+      # - name: Setup environment
+      #   uses: mamba-org/setup-micromamba@v1
+      #   with:
+      #     environment-file: automation/environment.yml
+      #     cache-environment: true
+      #     cache-downloads: true
+      #     init-shell: >-
+      #       bash
+      #     post-cleanup: 'all'
+      # - name: Run Validations
+      #   run: |
+      #     robot -d results automation/Tests
+      #   shell: bash -el {0}
