@@ -28,7 +28,7 @@ jobs:
           path: automation
       - uses: browser-actions/setup-chrome@v1
         with:
-          chrome-version: 120
+          chrome-version: 125
           install-chromedriver: true
       - uses: browser-actions/setup-firefox@v1
       - run: firefox --version
