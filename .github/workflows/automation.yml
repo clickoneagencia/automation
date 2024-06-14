@@ -21,7 +21,7 @@ jobs:
       - name: Setup environment
         uses: mamba-org/setup-micromamba@v1
         with:
-          environment-file: environment.yml
+          environment-file: automation/environment.yml
       - name: Run Validations
         run: |
           robot -d results automation/Tests
