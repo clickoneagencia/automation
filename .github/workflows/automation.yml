@@ -13,6 +13,12 @@ jobs:
     name: Automation for agencia-clickone
     runs-on: ubuntu-latest
     timeout-minutes: 5
+
+    services:
+      selenium:
+        image: selenium/standalone-chrome
+        options: --shm-size=2gb
+
     steps:
       - name: Checkout branch
         uses: actions/checkout@v2
