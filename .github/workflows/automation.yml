@@ -28,8 +28,10 @@ jobs:
           path: automation
       - uses: browser-actions/setup-chrome@v1
         with:
-          chrome-version: 125
+          chrome-version: 120
           install-chromedriver: true
+      - uses: browser-actions/setup-firefox@v1
+      - run: firefox --version
       - name: Setup environment
         uses: mamba-org/setup-micromamba@v1
         with:
