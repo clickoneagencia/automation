@@ -28,6 +28,7 @@ jobs:
           path: automation
       - uses: browser-actions/setup-chrome@v1
         with:
+          chrome-version: 125
           install-chromedriver: true
       - name: Setup environment
         uses: mamba-org/setup-micromamba@v1
