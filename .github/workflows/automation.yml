@@ -37,6 +37,7 @@ jobs:
           ${{ steps.setup-chrome.outputs.chrome-path }} --version
       - name: Set Chrome path
         run: |
+          rm /usr/bin/google-chrome
           ln -s ${{ steps.setup-chrome.outputs.chrome-path }} /usr/bin/google-chrome
       - uses: browser-actions/setup-firefox@v1
       - run: |
