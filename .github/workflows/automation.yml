@@ -40,12 +40,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Download test results
-      uses: actions/download-artifact@v3
-      with:
-        name: test-results
-        path: results/
-
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v4
