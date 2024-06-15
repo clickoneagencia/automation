@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-while getopts "I:T:" flag
+while getopts "I:S:" flag
 do
     case "${flag}" in
         S) INPUT_SRC=${OPTARG};;
