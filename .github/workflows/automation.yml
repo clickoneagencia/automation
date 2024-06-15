@@ -13,9 +13,6 @@ jobs:
     name: Automation for agencia-clickone
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    container:
-      image: clickoneagencia/automation:latest
-      options: --user root
 
     steps:
       - name: Checkout branch
@@ -25,6 +22,7 @@ jobs:
       - name: Run automation tests
         run: |
           cd automation
+          ls -la
           ./run_tests.sh -S ${{ env.INPUT_SRC }}
         env:
           INPUT_SRC: automation  # Set SRC environment variable if needed
