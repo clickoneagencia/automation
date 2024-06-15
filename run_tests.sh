@@ -25,7 +25,7 @@ RUN_COMMAND="${RUN_COMMAND}; robot -d results Tests"
 set -e
 
 docker run -i --name automation_tests --rm \
-  -v $(pwd)/${SRC}:/app \
+  -v $(pwd):/app/automation \
   -v $(pwd)/ci-cache/py/3.11/cache:/cache/pip \
   clickoneagencia/automation \
   /bin/sh -c "$RUN_COMMAND"
