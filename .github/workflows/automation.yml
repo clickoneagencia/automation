@@ -1,0 +1,50 @@
+name: Automation Checks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: write
+  pages: write
+
+jobs:
+  build-and-test:
+    name: Automation for agencia-clickone
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v2
+        with:
+          path: automation
+      - name: Run automation tests
+        run: |
+          cd automation
+          ls -la
+          ./run_tests.sh -S ${{ env.INPUT_SRC }}
+        env:
+          INPUT_SRC: automation
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: github-pages
+          path: automation/results/
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
