@@ -30,4 +30,18 @@ RUN python3.11 -m virtualenv -p python3.11 env
 ENV PYTHONPATH="${PYTHONPATH}:/usr/local/lib/python3.11/site-packages:/usr/lib/python3.11/site-packages:${ROOT_DIR}/env/lib/python3.11/site-packages:${ROOT_DIR}"
 ENV PATH "${PYENV_ROOT}/versions/${PYTHON_VERSION}/lib/python3.11/site-packages:${ROOT_DIR}/env/bin:${PATH}"
 
+# NVM
+RUN git clone https://github.com/nvm-sh/nvm.git .nvm
+ENV NVM_DIR "$ROOT_DIR/.nvm"
+RUN [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+RUN [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+ENV NODE_TARGET_VERSION 20.14.0
+RUN . $NVM_DIR/nvm.sh && \
+  nvm install ${NODE_TARGET_VERSION} && \
+  nvm alias default ${NODE_TARGET_VERSION} && \
+  nvm use default
+
+ENV PATH $NVM_DIR/versions/node/v${NODE_TARGET_VERSION}/bin:$PATH
+
 RUN rm -rf /var/lib/apt/lists/*

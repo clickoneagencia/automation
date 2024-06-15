@@ -15,6 +15,7 @@ jobs:
     timeout-minutes: 5
     container:
       image: clickoneagencia/automation
+      options: --user root
 
     steps:
       - name: Checkout branch
