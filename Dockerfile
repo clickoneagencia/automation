@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 USER root
 RUN apt-get update && \
-  apt-get install -y --no-install-recommends build-essential libssl-dev libffi-dev libncurses5-dev zlib1g zlib1g-dev libreadline-dev libbz2-dev libsqlite3-dev make gcc git curl wget unzip && \
+  apt-get install -y --no-install-recommends build-essential libssl-dev libglib2.0-0 libnss3 libxcb1 make gcc git curl wget unzip && \
   apt-get clean
 
 RUN curl https://storage.googleapis.com/chrome-for-testing-public/126.0.6478.61/linux64/chrome-linux64.zip --output chrome-linux64.zip
