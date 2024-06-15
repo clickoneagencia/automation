@@ -19,9 +19,7 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v2
-        with:
-          path: automation
+        run: git clone https://github.com/clickoneagencia/automation.git clickone-automation
       - name: Install dependencies
         run: pip3.11 install -r automation/requirements.txt
       - name: Run Validations
