@@ -23,7 +23,7 @@ jobs:
         with:
           path: automation
       - name: Run automation tests
-        run: ./run_tests.sh
+        run: ./automation/run_tests.sh
         env:
           INPUT_SRC: automation  # Set SRC environment variable if needed
           INPUT_TEST_MODULES: ""
