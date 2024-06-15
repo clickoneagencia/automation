@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  agencia-clickone:
+  build-and-test:
     name: Automation for agencia-clickone
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -25,4 +25,27 @@ jobs:
           ls -la
           ./run_tests.sh -S ${{ env.INPUT_SRC }}
         env:
-          INPUT_SRC: automation  # Set SRC environment variable if needed
+          INPUT_SRC: automation
+      - name: Upload test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: github-pages
+          path: automation/results/
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Download test results
+      uses: actions/download-artifact@v3
+      with:
+        name: test-results
+        path: results/
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
