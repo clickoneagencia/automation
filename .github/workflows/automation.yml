@@ -22,9 +22,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: automation
-      - name: Install dependencies
-        run: pip3.11 install -r automation/requirements.txt
-      - name: Run Validations
-        run: |
-          robot -d results automation/Tests
-        shell: bash -el {0}
+      - name: Run automation tests
+        run: ./run_tests.sh
+        env:
+          INPUT_SRC: automation  # Set SRC environment variable if needed
+          INPUT_TEST_MODULES: ""
