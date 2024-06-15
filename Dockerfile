@@ -22,3 +22,9 @@ RUN chown root:root /usr/bin/chromedriver
 RUN chmod +x /usr/bin/chromedriver
 
 RUN rm -rf /var/lib/apt/lists/*
+
+# Set environment variables
+ENV DISPLAY=:99
+
+# Start Xvfb
+CMD ["sh", "-c", "Xvfb :99 -screen 0 1024x768x16 & while true; do sleep 1000; done"]
