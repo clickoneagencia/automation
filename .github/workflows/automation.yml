@@ -22,8 +22,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: automation
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
       - name: Run automation tests
-        run: ./automation/run_tests.sh
+        run: ./automation/run_tests.sh -S ${{ env.INPUT_SRC }}
         env:
           INPUT_SRC: automation  # Set SRC environment variable if needed
-          INPUT_TEST_MODULES: ""
