@@ -9,6 +9,9 @@ on:
       - main
   schedule:
     - cron: "0 */3 * * *"
+concurrency:
+  group: automation-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   id-token: write
@@ -17,8 +20,12 @@ permissions:
 
 jobs:
   build-and-test:
-    name: Automation for agencia-clickone
+    name: Automation
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        browser: [chrome, firefox]
+        client: [agenciaclickone]
     timeout-minutes: 5
 
     steps:
@@ -29,8 +36,7 @@ jobs:
       - name: Run automation tests
         run: |
           cd automation
-          ls -la
-          ./run_tests.sh -S ${{ env.INPUT_SRC }}
+          ./run_tests.sh -S ${{ env.INPUT_SRC }} -B ${{ matrix.browser }} -C ${{ matrix.client }}
         env:
           INPUT_SRC: automation
       - name: Upload test results

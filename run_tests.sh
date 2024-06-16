@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-while getopts "I:S:" flag
+while getopts "I:S:B:C:" flag
 do
     case "${flag}" in
+        B) INPUT_BROWSER=${OPTARG};;
+        C) INPUT_CLIENT=${OPTARG};;
         S) INPUT_SRC=${OPTARG};;
         I) INSTALL_PACKAGES=${OPTARG};;
         *) echo "${OPTARG} is an invalid parameter";;
@@ -10,6 +12,8 @@ do
 done
 
 SRC=${INPUT_SRC:=""}
+BROWSER=${INPUT_BROWSER:=""}
+CLIENT=${INPUT_CLIENT:=""}
 INSTALL_PACKAGES=true
 RUN_COMMAND="cd /app/$SRC"
 
@@ -19,7 +23,7 @@ if [ "$INSTALL_PACKAGES" = true ] ; then
     RUN_COMMAND="${RUN_COMMAND}; ${UPDATE_PACKAGE_MANAGER_CMD}; ${INSTALLATION_PACKAGES_CMD}"
 fi
 
-RUN_COMMAND="${RUN_COMMAND}; robot -d results Tests"
+RUN_COMMAND="${RUN_COMMAND}; robot -d results Tests/${BROWSER}/${CLIENT}"
 
 # exit when any command fails
 set -e
