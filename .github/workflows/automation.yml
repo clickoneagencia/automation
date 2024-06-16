@@ -36,20 +36,3 @@ jobs:
         with:
           name: github-pages
           path: automation/results/
-
-  deploy:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-
-    environment:
-      # environment created automatically by GitHub
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
-
-    - name: Show URL
-      run: echo ${{ steps.deployment.outputs.page_url }}

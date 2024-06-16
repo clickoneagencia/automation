@@ -40,6 +40,16 @@ RUN chown root:root /usr/bin/chromedriver
 RUN chmod +x /usr/bin/chromedriver
 RUN rm chromedriver-linux64.zip
 
+RUN curl -L -o firefox-127.0.tar.bz2 "https://download.mozilla.org/?product=firefox-127.0&os=linux64&lang=en-US"
+RUN tar xjf firefox-127.0.tar.bz2 -C /opt/
+RUN ln -s /opt/firefox/firefox /usr/local/bin/firefox
+
+# Download the latest version of geckodriver using curl
+ENV GECKODRIVER_VERSION="v0.34.0"
+RUN curl -L -o geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz "https://github.com/mozilla/geckodriver/releases/download/${GECKODRIVER_VERSION}/geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz"
+RUN tar -xvzf geckodriver-${GECKODRIVER_VERSION}-linux64.tar.gz
+RUN mv geckodriver /usr/local/bin/
+
 # Set environment variables
 ENV DISPLAY=:99
 
