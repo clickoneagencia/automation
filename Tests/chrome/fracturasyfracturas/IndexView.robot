@@ -13,7 +13,7 @@ Verify contact form render
 
     ${chrome_options}=  Create Chrome Options
     Open Browser  https://fracturasyfracturas.com.co/   ${BROWSER}  options=${chrome_options}
-    Wait Until Element Is Visible    xpath=//*[@id="colophon"]/div/div/div/div/section[1]/div[2]/div/div[2]    30s
+    Wait Until Element Is Visible    xpath=//*[@id="agenda"]/div/div[1]/div    30s
     [Teardown]  Close Browser
 
 *** Keywords ***
