@@ -8,12 +8,12 @@ ${BROWSER}   chrome
 
 *** Test Cases ***
 Verify contact form render
-    [Documentation]  This test case verifies
+    [Documentation]  This test case verifies the contact form
     [Tags]  Functional
 
     ${chrome_options}=  Create Chrome Options
     Open Browser  https://fracturasyfracturas.com.co/   ${BROWSER}  options=${chrome_options}
-    Wait Until Element Is Visible    xpath=//*[@id="colophon"]/div/div/div/div/section[1]/div[2]/div/div[2]    30s
+    Wait Until Page Contains  Capta nuevas oportunidades comerciales en internet.  30
     [Teardown]  Close Browser
 
 *** Keywords ***
