@@ -39,8 +39,8 @@ jobs:
           ./run_tests.sh -S ${{ env.INPUT_SRC }} -B ${{ matrix.browser }} -C ${{ matrix.client }}
         env:
           INPUT_SRC: automation
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        with:
-          name: github-pages
-          path: automation/results/
+      # - name: Upload test results
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: github-pages
+      #     path: automation/results/
