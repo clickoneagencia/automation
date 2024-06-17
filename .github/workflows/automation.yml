@@ -8,7 +8,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "0 */3 * * *"
+    - cron: "0 */6 * * *"
 concurrency:
   group: automation-${{ github.ref }}
   cancel-in-progress: true
@@ -24,8 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        browser: [chrome, firefox]
-        client: [agenciaclickone]
+        browser: [chrome]
+        client: [agenciaclickone, fracturasyfracturas]
     timeout-minutes: 5
 
     steps:
