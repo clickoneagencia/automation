@@ -12,8 +12,8 @@ jobs:
       fail-fast: false
       matrix:
         test-file:
-          - e2e/agencia-clickone.spec.ts
-          - e2e/inkmantattoo47.spec.ts
+          - agencia-clickone
+          - inkmantattoo47
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -24,7 +24,7 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npx playwright test ${{ matrix.test-file }}  --reporter=html,json
+      run: npx playwright test e2e/${{ matrix.test-file }}.spec.ts  --reporter=html,json
     - name: Upload report artifact
       uses: actions/upload-artifact@v4
       with:
