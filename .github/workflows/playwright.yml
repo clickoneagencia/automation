@@ -52,7 +52,7 @@ jobs:
 
       - name: Merge Playwright reports
         run: |
-          npx playwright merge-reports --reporter=html ./all-reports/*
+          npx playwright merge-reports ./all-reports --reporter=html
 
       - name: Upload artifact for Pages
         uses: actions/upload-pages-artifact@v3
