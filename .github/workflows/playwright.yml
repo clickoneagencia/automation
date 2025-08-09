@@ -4,6 +4,7 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+
 jobs:
   e2e:
     timeout-minutes: 60
@@ -15,20 +16,37 @@ jobs:
           - agencia-clickone
           - inkmantattoo47
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-    - name: Install dependencies
-      run: npm install
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test e2e/${{ matrix.test-file }}.spec.ts  --reporter=blob
-    - name: Upload blob artifact
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: blob-${{ matrix.test-file }}
-        path: blob-report/
-        retention-days: 15
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Install dependencies
+        run: npm ci --omit=optional
+
+      # Cache de navegadores Playwright (depende de SO + versión)
+      - name: Resolve Playwright version
+        id: pwv
+        run: echo "version=$(node -p \"require('@playwright/test/package.json').version\")" >> $GITHUB_OUTPUT
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-browsers-${{ runner.os }}-${{ steps.pwv.outputs.version }}
+          restore-keys: |
+            pw-browsers-${{ runner.os }}-
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npx playwright test e2e/${{ matrix.test-file }}.spec.ts --reporter=blob
+
+      - name: Upload blob artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blob-${{ matrix.test-file }}
+          path: blob-report/
+          retention-days: 15
