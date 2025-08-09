@@ -4,7 +4,6 @@
   "description": "## Installation",
   "main": "index.js",
   "dependencies": {
-    "fsevents": "^2.3.2",
     "playwright": "^1.54.2",
     "playwright-core": "^1.54.2",
     "undici-types": "^7.10.0"
