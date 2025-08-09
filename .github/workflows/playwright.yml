@@ -17,6 +17,7 @@ jobs:
           - inkmantattoo47
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -37,7 +38,6 @@ jobs:
         run: |
           node -e "console.log('version=' + require('@playwright/test/package.json').version)" >> "$GITHUB_OUTPUT"
 
-
       - name: Cache Playwright browsers
         uses: actions/cache@v4
         with:
@@ -48,3 +48,14 @@ jobs:
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
+
+      - name: Run Playwright tests (blob)
+        run: npx playwright test e2e/${{ matrix.test-file }}.spec.ts --reporter=blob
+
+      - name: Upload blob artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blob-${{ matrix.test-file }}
+          path: blob-report/
+          retention-days: 7
