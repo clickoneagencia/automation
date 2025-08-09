@@ -1,0 +1,61 @@
+name: Playwright Tests
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  e2e:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        test-file:
+          - agencia-clickone
+          - inkmantattoo47
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Cache npm registry
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: npm-registry-${{ runner.os }}-${{ hashFiles('package.json') }}
+          restore-keys: |
+            npm-registry-${{ runner.os }}-
+
+      - name: Install deps
+        run: npm install --omit=optional --no-audit --no-fund
+
+      - name: Resolve Playwright version
+        id: pwv
+        run: |
+          node -e "console.log('version=' + require('@playwright/test/package.json').version)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-browsers-${{ runner.os }}-${{ steps.pwv.outputs.version }}
+          restore-keys: |
+            pw-browsers-${{ runner.os }}-
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests (blob)
+        run: npx playwright test e2e/${{ matrix.test-file }}.spec.ts --reporter=blob
+
+      - name: Upload blob artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blob-${{ matrix.test-file }}
+          path: blob-report/
+          retention-days: 7
