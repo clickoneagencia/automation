@@ -31,45 +31,4 @@ jobs:
       with:
         name: blob-${{ matrix.test-file }}
         path: blob-report/
-        retention-days: 1
-
-  merge-reports:
-    runs-on: ubuntu-latest
-    needs: e2e
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-
-      - name: Install Playwright
-        run: npm install @playwright/test
-
-      - name: Download all blob artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: ./all-blobs
-
-      - name: Merge Playwright reports
-        run: npx playwright merge-reports ./all-blobs --reporter=html
-
-      - name: Upload artifact for Pages
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: playwright-report
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: merge-reports
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
+        retention-days: 15
