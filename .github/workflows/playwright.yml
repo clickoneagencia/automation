@@ -24,12 +24,13 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npx playwright test e2e/${{ matrix.test-file }}.spec.ts  --reporter=html,json
-    - name: Upload report artifact
+      run: npx playwright test e2e/${{ matrix.test-file }}.spec.ts  --reporter=blob
+    - name: Upload blob artifact
+      if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: report-${{ matrix.test-file }}
-        path: playwright-report/
+        name: blob-${{ matrix.test-file }}
+        path: blob-report/
         retention-days: 1
 
   merge-reports:
@@ -45,14 +46,13 @@ jobs:
       - name: Install Playwright
         run: npm install @playwright/test
 
-      - name: Download all artifacts
+      - name: Download all blob artifacts
         uses: actions/download-artifact@v4
         with:
-          path: ./all-reports
+          path: ./all-blobs
 
       - name: Merge Playwright reports
-        run: |
-          npx playwright merge-reports ./all-reports --reporter=html
+        run: npx playwright merge-reports ./all-blobs --reporter=html
 
       - name: Upload artifact for Pages
         uses: actions/upload-pages-artifact@v3
